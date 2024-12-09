@@ -50,7 +50,6 @@ const VerbBattle: React.FC<VerbBattleProps> = ({ difficulty }) => {
   // State variables
   const [currentVerb, setCurrentVerb] = useState(verbs[Math.floor(Math.random() * verbs.length)]);
   const [lastCorrectVerb, setLastCorrectVerb] = useState<any>(null);
-  const [previousVerb, setPreviousVerb] = useState<any>(null);
   const [currentPronoun, setCurrentPronoun] = useState(pronouns[Math.floor(Math.random() * pronouns.length)]);
   const [playerAnswer, setPlayerAnswer] = useState('');
   const [playerHealth, setPlayerHealth] = useState(100);
