@@ -49,6 +49,8 @@ const VerbBattle: React.FC<VerbBattleProps> = ({ difficulty }) => {
 
   // State variables
   const [currentVerb, setCurrentVerb] = useState(verbs[Math.floor(Math.random() * verbs.length)]);
+  const [lastCorrectVerb, setLastCorrectVerb] = useState<any>(null);
+  const [previousVerb, setPreviousVerb] = useState<any>(null);
   const [currentPronoun, setCurrentPronoun] = useState(pronouns[Math.floor(Math.random() * pronouns.length)]);
   const [playerAnswer, setPlayerAnswer] = useState('');
   const [playerHealth, setPlayerHealth] = useState(100);
@@ -90,6 +92,9 @@ const VerbBattle: React.FC<VerbBattleProps> = ({ difficulty }) => {
       // Correct answer
       setMessage('Correct! You attacked the enemy!');
       setEnemyHealth(Math.max(0, enemyHealth - 20 * difficulty));
+
+      // Store the current verb as the last correct verb
+      setLastCorrectVerb(currentVerb);
 
       // Select a new verb and pronoun
       const newVerb = verbs[Math.floor(Math.random() * verbs.length)];
@@ -205,9 +210,20 @@ const VerbBattle: React.FC<VerbBattleProps> = ({ difficulty }) => {
         </div>
       </div>
 
-      {showConjugationTable && currentVerb && (
+      {(showConjugationTable || gameState === 'showAnswer') && (
         <div className="conjugation-section">
-          <ConjugationTable verb={currentVerb} />
+          {lastCorrectVerb && gameState === 'playing' && (
+            <div>
+              <h3>Last Correct Verb:</h3>
+              <ConjugationTable verb={lastCorrectVerb} />
+            </div>
+          )}
+          {gameState === 'showAnswer' && (
+            <div>
+              <h3>Correct Conjugation:</h3>
+              <ConjugationTable verb={currentVerb} />
+            </div>
+          )}
         </div>
       )}
     </div>
